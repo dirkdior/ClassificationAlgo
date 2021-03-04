@@ -60,8 +60,8 @@ public class Main {
         System.out.println(testImages);
         System.out.println(testImages.get(testImages.size() - 1).getBitMap() + "--->" + testImages.get(testImages.size() - 1).getImageName());
 
-        KNearestNeighbour knn = new KNearestNeighbour();
-        knn.getDistance(trainingImages.get(trainingImages.size() - 1), testImages.get(testImages.size() - 1));
+        KNearestNeighbour knn = new KNearestNeighbour(trainingImages, testImages);
+        knn.printPerformance();
 
     }
 }
@@ -81,5 +81,9 @@ class Image {
 
     public String getBitMap() {
         return this.bitMap;
+    }
+
+    public void printImage() {
+        System.out.println(bitMap + "--->" + imageName);
     }
 }
