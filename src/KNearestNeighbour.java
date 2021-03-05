@@ -87,8 +87,8 @@ public final class KNearestNeighbour {
     }
 
     public final void printPerformance() {
-        System.out.println("Total Count Of Tests: " + correctSuggestions);
-        System.out.println("Correct Suggestions:  " + countOfTests);
+        System.out.println("Total Count Of Tests: " + countOfTests);
+        System.out.println("Correct Suggestions:  " + correctSuggestions);
         System.out.println("% Correct: " + percentageCorrect + "%" );
     }
 }

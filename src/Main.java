@@ -60,6 +60,7 @@ public class Main {
         System.out.println(testImages);
         System.out.println(testImages.get(testImages.size() - 1).getBitMap() + "--->" + testImages.get(testImages.size() - 1).getImageName());
 
+        //Run KNearestNeighbour algorithm
         KNearestNeighbour knn = new KNearestNeighbour(trainingImages, testImages);
         knn.printPerformance();
 
