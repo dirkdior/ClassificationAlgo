@@ -14,6 +14,7 @@ public class Main {
         BufferedReader bufferedReader   = null;
         String line                     = "";
 
+        //hold training and test images in an array list
         ArrayList<Image> trainingImages = new ArrayList<>();
         ArrayList<Image> testImages     = new ArrayList<>();
 
