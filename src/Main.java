@@ -1,3 +1,6 @@
+import algorithms.*;
+import shared.Image;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -52,39 +55,38 @@ public class Main {
                 }
             }
         }
-        System.out.println("NUMBER OF TRAINING IMAGES: " + trainingImages.size());
-        System.out.println(trainingImages);
-        System.out.println(trainingImages.get(trainingImages.size() - 1).getBitMap() + "--->" + trainingImages.get(trainingImages.size() - 1).getImageName());
+        System.out.println("NUMBER OF TRAINING IMAGES : " + trainingImages.size());
 
-        System.out.println("NUMBER OF TEST IMAGES: " + testImages.size());
-        System.out.println(testImages);
-        System.out.println(testImages.get(testImages.size() - 1).getBitMap() + "--->" + testImages.get(testImages.size() - 1).getImageName());
+        System.out.println("NUMBER OF TEST IMAGES     : " + testImages.size());
 
-        //Run KNearestNeighbour algorithm
-        KNearestNeighbour knn = new KNearestNeighbour(trainingImages, testImages);
-        knn.printPerformance();
+        //Run KMeans Algorithm
+        System.out.println("---\nUSING K-MEANS ALGORITHM [training -> test] [cw2DataSet1.csv -> cw2DataSet2.csv]");
+        long km1StartTime    = System.nanoTime(); //starting time for k-means algorithm
+        KMeansAlgorithm kma1 = new KMeansAlgorithm(trainingImages, testImages);
+        long km1EndTime      = System.nanoTime(); //stop time for k-nn algorithm
+        kma1.printPerformance();
+        System.out.println("DURATION (in Seconds)         : " + (double)(km1EndTime - km1StartTime) / 1_000_000_000.0); //print duration in seconds
 
-    }
-}
+        System.out.println("---\nUSING K-MEANS ALGORITHM [training -> test] [cw2DataSet2.csv -> cw2DataSet1.csv]");
+        long km2StartTime    = System.nanoTime(); //starting time for k-means algorithm
+        KMeansAlgorithm kma2 = new KMeansAlgorithm(testImages, trainingImages); //use test file as training
+        long km2EndTime      = System.nanoTime(); //stop time for k-nn algorithm
+        kma2.printPerformance();
+        System.out.println("DURATION (in Seconds)         : " + (double)(km2EndTime - km2StartTime) / 1_000_000_000.0); //print duration in seconds
 
-class Image {
-    private final int imageName; //The name of the digit
-    private final String bitMap;
+        //Run algorithms.KNearestNeighbour algorithm
+        System.out.println("---\nUSING K-NEAREST NEIGHBOUR ALGORITHM [training -> test] [cw2DataSet1.csv -> cw2DataSet2.csv]");
+        long nnStartTime1      = System.nanoTime(); //start time for k-nn algorithm
+        KNearestNeighbour knn1 = new KNearestNeighbour(trainingImages, testImages);
+        long nnEndTime1        = System.nanoTime(); //stop time for k-nn algorithm
+        knn1.printPerformance();
+        System.out.println("DURATION (in Seconds)         : " + (double)(nnEndTime1 - nnStartTime1) / 1_000_000_000.0); //print duration in seconds
 
-    public Image(int imageName, String bitMap) {
-        this.imageName = imageName;
-        this.bitMap    = bitMap;
-    }
-
-    public int getImageName() {
-        return this.imageName;
-    }
-
-    public String getBitMap() {
-        return this.bitMap;
-    }
-
-    public void printImage() {
-        System.out.println(bitMap + "--->" + imageName);
+        System.out.println("---\nUSING K-NEAREST NEIGHBOUR ALGORITHM [training -> test] [cw2DataSet2.csv -> cw2DataSet1.csv]");
+        long nnStartTime2      = System.nanoTime(); //start time for k-nn algorithm
+        KNearestNeighbour knn2 = new KNearestNeighbour(testImages, trainingImages); //use test file as training
+        long nnEndTime2        = System.nanoTime(); //stop time for k-nn algorithm
+        knn2.printPerformance();
+        System.out.println("DURATION (in Seconds)         : " + (double)(nnEndTime2 - nnStartTime2) / 1_000_000_000.0); //print duration in seconds
     }
 }

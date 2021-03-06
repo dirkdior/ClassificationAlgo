@@ -1,31 +1,12 @@
+package algorithms;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
+import shared.*;
+
 public final class KNearestNeighbour {
-
-    public static class ImageDistances implements Comparable<ImageDistances> {
-        private final double distance;
-        private final Image possibleImage;
-        private final Image selectedImage;
-
-        public ImageDistances(double distance, Image possibleImage, Image selectedImage) {
-            this.distance      = distance;
-            this.possibleImage = possibleImage;
-            this.selectedImage = selectedImage;
-        }
-
-        public double getDistance() { return distance; }
-        public Image getPossibleImage() { return possibleImage; }
-        public Image getSelectedImage() { return selectedImage; }
-
-        //Allows distances to be compared to one another, makes sorting possible
-        @Override
-        public int compareTo(ImageDistances d) {
-            return Double.compare(distance, d.getDistance());
-        }
-    }
 
     private final int correctSuggestions;
     private final int countOfTests;
@@ -36,9 +17,6 @@ public final class KNearestNeighbour {
 
         //run algorithm on each image in the test datasheet
         for(Image selectedImg:testImages) {
-            System.out.print("Selected Image: ");
-            selectedImg.printImage();
-
             ArrayList<ImageDistances> nearestNeighbours = new ArrayList<>();
 
             //run each image against all the images in the training datasheet
@@ -49,16 +27,14 @@ public final class KNearestNeighbour {
                         selectedImg
                 ));
             }
-            Collections.sort(nearestNeighbours);
-            Image suggestedImage = nearestNeighbours.get(0).getPossibleImage();
-            System.out.print("Suggested Image: ");
-            suggestedImage.printImage();
-            nearestNeighbours.clear();
-            System.out.println("------------------------------------------");
+            Collections.sort(nearestNeighbours); //sort image distances so images least distance move top
+            Image suggestedImage = nearestNeighbours.get(0).getPossibleImage(); //get the first image with the least distance; K = 1
+            nearestNeighbours.clear(); //clear the list for use in next loop
 
             if(selectedImg.getImageName() == suggestedImage.getImageName())
                 numOfCorrect += 1;
         }
+        //set the count of tests, the number of correct guesses and calculate the success rate
         this.countOfTests       = testImages.size();
         this.correctSuggestions = numOfCorrect;
         double percentResult    = ((double)correctSuggestions/(double)countOfTests) * 100;
@@ -87,8 +63,8 @@ public final class KNearestNeighbour {
     }
 
     public final void printPerformance() {
-        System.out.println("Total Count Of Tests: " + countOfTests);
-        System.out.println("Correct Suggestions:  " + correctSuggestions);
-        System.out.println("% Correct: " + percentageCorrect + "%" );
+        System.out.println("Total Number of Images Tested : " + countOfTests);
+        System.out.println("Accurate Suggestions          : " + correctSuggestions);
+        System.out.println("Accuracy                      : " + percentageCorrect + "%" );
     }
 }
